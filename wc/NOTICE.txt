@@ -1,0 +1,3 @@
+whisper.cpp WebAssembly runtime from @fugood/node-whisper-wasm 1.1.3 (MIT License)
+https://github.com/mybigday/whisper.node
+Copyright (c) ggml / whisper.cpp contributors, mybigday

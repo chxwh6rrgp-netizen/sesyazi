@@ -184,14 +184,15 @@ a{color:var(--accent)}
 
 <!-- ===== HOME ===== -->
 <section id="vHome" class="stack" style="padding-top:18px">
+  <div id="resumeBox" class="note warn" hidden></div>
   <div class="note small">Anahtar, hesap ya da ücret yok. Ses dosyan <b>hiçbir yere gönderilmez</b>, telefonunun içinde metne çevrilir.</div>
 
   <label class="drop" id="drop" for="fileIn">
     <svg class="wave" viewBox="0 0 340 48" aria-hidden="true" id="waveSvg"></svg>
     <h2>Ses dosyasını seç</h2>
-    <div class="muted small">mp3, m4a, wav, ogg, aac, opus, mp4 video… Süre sınırı yok.</div>
+    <div class="muted small">mp3, m4a, wav, aac, mp4 video, ses kaydı…</div>
     <span class="btn primary" style="margin-top:4px">Dosya seç</span>
-    <input type="file" id="fileIn" accept="audio/*,video/*,.m4a,.mp3,.wav,.ogg,.opus,.flac,.aac,.webm,.mp4,.mov,.amr,.3gp" hidden>
+    <input type="file" id="fileIn" accept="audio/*,video/*,.m4a,.mp3,.wav,.ogg,.opus,.flac,.aac,.webm,.mp4,.mov,.amr,.3gp,.caf" hidden>
   </label>
   <div class="row" style="justify-content:center">
     <button class="btn ghost rec" id="recBtn"><span class="rd"></span><span id="recTxt">Ya da şimdi kaydet</span></button>
@@ -199,27 +200,25 @@ a{color:var(--accent)}
 
   <div id="jobCard" class="card stack" hidden>
     <div class="filebox"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span class="nm" id="fName"></span><span class="pill mono" id="fDur">—</span></div>
-
     <div class="grid2">
-      <label class="f">Konuşmacı sayısı
-        <select id="nSpk"><option value="0">Otomatik bul</option><option value="1">1 (tek kişi)</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select>
+      <label class="f">Kaç kişi konuşuyor?
+        <select id="nSpk"><option value="0">Bilmiyorum, kendin bul</option><option value="1">1 (tek kişi)</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
       </label>
       <label class="f">Dil
-        <select id="lang"><option value="tr">Türkçe</option><option value="">Otomatik</option><option value="en">İngilizce</option><option value="de">Almanca</option><option value="ar">Arapça</option><option value="ru">Rusça</option><option value="fr">Fransızca</option><option value="ku">Kürtçe</option><option value="az">Azerice</option></select>
+        <select id="lang"><option value="tr">Türkçe</option><option value="">Otomatik</option><option value="en">İngilizce</option><option value="de">Almanca</option><option value="ar">Arapça</option><option value="ru">Rusça</option><option value="fr">Fransızca</option><option value="az">Azerice</option></select>
       </label>
     </div>
-
     <div class="stack" style="gap:8px">
-      <span class="eyebrow">Kalite</span>
-      <div class="seg-ctrl" role="group" aria-label="Kalite">
-        <button id="qStd" aria-pressed="true">Standart</button>
-        <button id="qHi" aria-pressed="false">En yüksek</button>
+      <span class="eyebrow">Mod</span>
+      <div class="seg-ctrl" role="group" aria-label="Mod">
+        <button id="mSmall" aria-pressed="true">Doğru (önerilen)</button>
+        <button id="mBase" aria-pressed="false">Hızlı</button>
       </div>
-      <div class="muted small" id="qNote"></div>
     </div>
-
+    <label class="f">Geçen isimler ve özel kelimeler <span class="muted small" style="font-weight:400">(isteğe bağlı)</span>
+      <input type="text" id="hint" placeholder="Örn: Ahmet Yılmaz, Ayşe, kira sözleşmesi, depozito" autocomplete="off">
+    </label>
     <label class="check"><input type="checkbox" id="oPre"><span><b>Sesi önce netleştir</b><span class="muted small">Uğultu ve tıslamayı filtreler, kısık sesleri yükseltir. Gürültülü kayıtlarda aç.</span></span></label>
-
     <div class="row">
       <button class="btn primary" id="startBtn" style="flex:1">Metne dönüştür</button>
       <button class="btn ghost" id="cancelFile">Vazgeç</button>
@@ -231,8 +230,7 @@ a{color:var(--accent)}
     <span class="eyebrow">Son kayıtlar</span>
     <div class="hist" id="recent"></div>
   </div>
-
-  <div class="muted small" style="text-align:center;padding-top:10px">Ton, vurgu ve duygu analizi istersen: <a href="gelismis.html">Gelişmiş sürüm</a> (ücretsiz Google anahtarı ister)</div>
+  <div class="muted small" style="text-align:center;padding-top:6px">Ana ekrana eklersen kayıtların ve yapay zekâ telefonda kalıcı olur.<br>Ton ve vurgu analizi için: <a href="gelismis.html">gelişmiş sürüm</a> (ücretsiz Google anahtarı ister)</div>
 </section>
 
 <!-- ===== PROGRESS ===== -->
@@ -242,7 +240,7 @@ a{color:var(--accent)}
     <div class="prog"><i id="pBar"></i></div>
     <div class="row small muted"><span id="pPct" class="mono">0%</span><span style="flex:1"></span><span id="pEta"></span></div>
     <ul class="steps" id="pSteps"></ul>
-    <div class="note small" id="pNote">Ekranı açık tut ve bu sayfadan çıkma. Telefon kilitlenirse işlem durur.</div>
+    <div class="note small" id="pNote">Ekranı açık tut ve bu sayfadan çıkma; telefon kilitlenirse işlem duraklar. Sayfa kapanırsa yeniden açman yeterli, kaldığı yerden devam eder.</div>
     <div class="log" id="pLog"></div>
     <div class="row"><button class="btn" id="pShow" hidden>Şimdiye kadarki metni göster</button><button class="btn danger ghost" id="pStop">Durdur</button></div>
   </div>
@@ -256,16 +254,13 @@ a{color:var(--accent)}
     <div class="row small muted" id="rMeta"></div>
   </div>
   <div id="rWarn" class="note warn" hidden></div>
-
   <div class="card stack">
     <div class="row"><span class="eyebrow" style="flex:1">Konuşmacılar</span><button class="btn ghost" id="spkEdit" style="min-height:32px;padding:0 10px">Düzenle</button></div>
     <div class="spk-list" id="spkList"></div>
   </div>
-
   <div class="row">
     <button class="btn primary" id="expBtn" style="flex:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>PDF / Paylaş / ChatGPT</button>
   </div>
-
   <div class="toolbar">
     <input type="search" id="q" placeholder="Metinde ara…" aria-label="Metinde ara">
     <select id="fSpk" style="width:auto;min-height:40px" aria-label="Konuşmacı filtresi"></select>
@@ -281,13 +276,10 @@ a{color:var(--accent)}
   <div class="noaudio" id="noAud">Ses dosyası bu cihazda yok. <button class="btn" id="attachBtn" style="min-height:32px;padding:0 10px">Sesi bağla</button><input type="file" id="attachIn" accept="audio/*,video/*" hidden></div>
 </div></div>
 
-<!-- Export -->
 <dialog id="dExp"><div class="sheet">
   <div class="sheet-h"><h2>Dışa aktar</h2><button class="iconbtn" data-close aria-label="Kapat">✕</button></div>
   <div class="sheet-b">
-    <div class="row">
-      <label class="toggle"><input type="checkbox" id="xTs" checked>Zaman damgası</label>
-    </div>
+    <div class="row"><label class="toggle"><input type="checkbox" id="xTs" checked>Zaman damgası</label></div>
     <span class="eyebrow">Yapay zekâya gönder</span>
     <label class="f">Hazır istem
       <select id="xPrompt">
@@ -320,28 +312,21 @@ a{color:var(--accent)}
   </div>
 </div></dialog>
 
-<!-- Speakers -->
 <dialog id="dSpk"><div class="sheet">
   <div class="sheet-h"><h2>Konuşmacılar</h2><button class="iconbtn" data-close aria-label="Kapat">✕</button></div>
   <div class="sheet-b">
     <div class="card stack" id="reclBox">
       <b>Konuşmacılar yanlış mı ayrıldı?</b>
-      <div class="grid2">
-        <label class="f">Kaç kişi konuşuyor?
-          <select id="rcK"><option value="0">Otomatik</option><option value="1">1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select>
-        </label>
-        <label class="f">Ayırma hassasiyeti <span class="muted small" id="rcTv"></span>
-          <input type="range" id="rcT" min="0.55" max="0.97" step="0.01" style="width:100%">
-        </label>
-      </div>
-      <div class="muted small">Az kişi bulduysa hassasiyeti artır, fazla bulduysa azalt. Elle yaptığın konuşmacı değişiklikleri sıfırlanır.</div>
+      <label class="f">Kaç kişi konuşuyor?
+        <select id="rcK"><option value="0">Kendin bul</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
+      </label>
+      <div class="muted small">Doğru kişi sayısını seçmek ayrımı belirgin şekilde iyileştirir. Yeniden ayırınca elle yaptığın metin ve konuşmacı düzeltmeleri sıfırlanır.</div>
       <button class="btn" id="rcGo">Yeniden ayır</button>
     </div>
     <div id="spkBody" class="stack"></div>
   </div>
 </div></dialog>
 
-<!-- History -->
 <dialog id="dHist"><div class="sheet">
   <div class="sheet-h"><h2>Geçmiş</h2><button class="iconbtn" data-close aria-label="Kapat">✕</button></div>
   <div class="sheet-b"><div class="hist" id="histList"></div></div>
@@ -349,142 +334,112 @@ a{color:var(--accent)}
 
 <div class="toast" id="toast" hidden></div>
 
+<script src="spk.js"></script>
 <script>
 "use strict";
 /* ================= utils ================= */
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const tick = () => new Promise(r => setTimeout(r, 0));
 function fmt(t){ t=Math.max(0,+t||0); const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=Math.floor(t%60); const p=n=>String(n).padStart(2,"0"); return (h?h+":"+p(m):p(m))+":"+p(s); }
 function srtT(t,sep){ t=Math.max(0,+t||0); const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=Math.floor(t%60),ms=Math.floor((t%1)*1000); const p=(n,l=2)=>String(n).padStart(l,"0"); return `${p(h)}:${p(m)}:${p(s)}${sep}${p(ms,3)}`; }
 function toast(msg, ms=2600){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true, ms); }
-const LS = { get(k,d){ try{ const v=localStorage.getItem("sy_"+k); return v==null?d:JSON.parse(v);}catch{return d} }, set(k,v){ try{localStorage.setItem("sy_"+k,JSON.stringify(v))}catch{} } };
+const LS = { get(k,d){ try{ const v=localStorage.getItem("sy_"+k); return v==null?d:JSON.parse(v);}catch{return d} }, set(k,v){ try{ v==null?localStorage.removeItem("sy_"+k):localStorage.setItem("sy_"+k,JSON.stringify(v)); }catch{} } };
 const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const SPK_COLORS = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8","--s9","--s10"];
 const LIGHT_HEX = {"--s1":"#2b54d6","--s2":"#c2410c","--s3":"#0f8a6c","--s4":"#9333ea","--s5":"#b5179e","--s6":"#0e7490","--s7":"#a16207","--s8":"#4d7c0f","--s9":"#be123c","--s10":"#475569"};
-const DEF_T = 0.80;
+const SR = 16000;
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
 
 /* ================= IndexedDB ================= */
 const DB = (() => {
-  let p; const open = () => p ||= new Promise((res, rej) => { const r = indexedDB.open("sesyazi-yerel", 1);
-    r.onupgradeneeded = () => { const d=r.result; d.createObjectStore("docs",{keyPath:"id"}); d.createObjectStore("audio"); };
+  let p; const open = () => p ||= new Promise((res, rej) => { const r = indexedDB.open("sesyazi-yerel", 2);
+    r.onupgradeneeded = () => { const d=r.result; if(!d.objectStoreNames.contains("docs")) d.createObjectStore("docs",{keyPath:"id"}); if(!d.objectStoreNames.contains("audio")) d.createObjectStore("audio"); };
     r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
-  const tx = async (st, mode, fn) => { const d = await open(); return new Promise((res, rej) => { const t=d.transaction(st,mode); const s=t.objectStore(st); const r=fn(s); t.oncomplete=()=>res(r&&r.result); t.onerror=()=>rej(t.error); }); };
+  const tx = async (st, mode, fn) => { const d = await open(); return new Promise((res, rej) => { const t=d.transaction(st,mode); const s=t.objectStore(st); const r=fn(s); t.oncomplete=()=>res(r&&r.result); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }); };
   return {
     put: doc => tx("docs","readwrite",s=>s.put(doc)).catch(()=>{}),
     all: () => tx("docs","readonly",s=>s.getAll()).catch(()=>[]),
     get: id => tx("docs","readonly",s=>s.get(id)).catch(()=>null),
     del: id => tx("docs","readwrite",s=>s.delete(id)).catch(()=>{}),
-    putAudio: (id,blob) => tx("audio","readwrite",s=>s.put(blob,id)).catch(()=>{}),
+    putAudio: (id,blob) => tx("audio","readwrite",s=>s.put(blob,id)).then(()=>true).catch(()=>false),
     getAudio: id => tx("audio","readonly",s=>s.get(id)).catch(()=>null),
     delAudio: id => tx("audio","readwrite",s=>s.delete(id)).catch(()=>{}),
   };
 })();
 
-/* ================= device / quality ================= */
-let gpu = null; // {f16:boolean}
-const gpuReady = (async () => { try{ if(!navigator.gpu) return; const a = await navigator.gpu.requestAdapter(); if(a) gpu = { f16: a.features.has("shader-f16") }; }catch{} })();
-let quality = LS.get("quality","std");
-function modelCfg(q){
-  if(q==="hi") return gpu
-    ? { model:"onnx-community/whisper-large-v3-turbo", device:"webgpu", dtype:{ encoder_model: gpu.f16?"fp16":"q4", decoder_model_merged:"q4" }, mb: gpu.f16?1300:700 }
-    : { model:"onnx-community/whisper-large-v3-turbo", device:"wasm", dtype:"q8", mb:850 };
-  return gpu
-    ? { model:"onnx-community/whisper-small", alt:"Xenova/whisper-small", device:"webgpu", dtype:{ encoder_model:"fp32", decoder_model_merged:"q4" }, mb:450 }
-    : { model:"onnx-community/whisper-small", alt:"Xenova/whisper-small", device:"wasm", dtype:"q8", mb:250 };
-}
-function setQuality(q){ quality=q; LS.set("quality",q); $("#qStd").setAttribute("aria-pressed",q==="std"); $("#qHi").setAttribute("aria-pressed",q==="hi");
-  const c=modelCfg(q), cached=LS.get("dl_"+c.model,false);
-  $("#qNote").textContent = q==="std"
-    ? "Çoğu telefonda rahat çalışır. Net kayıtlarda iyi sonuç verir."
-    : (gpu ? "Daha doğru, özellikle gürültülü ve aksanlı kayıtlarda. Bilgisayar ya da yeni bir telefon önerilir." : "Daha doğru ama bu cihazda çok yavaş çalışır. Bilgisayarda Chrome ile kullanman önerilir.");
-  $("#dlNote").textContent = cached ? "Model bu cihazda kayıtlı, internet gerekmez." : `İlk kullanımda yaklaşık ${c.mb+100} MB indirilir (bir kerelik). Wi-Fi önerilir.`;
-}
-$("#qStd").onclick=()=>setQuality("std"); $("#qHi").onclick=()=>setQuality("hi");
-
-/* ================= worker ================= */
-const WORKER_SRC = `
-import { pipeline, AutoProcessor, WavLMForXVector, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js";
-env.allowLocalModels = false;
-let asr = null, asrKey = "", spProc = null, spModel = null;
-const prog = what => p => { if(p && (p.status==="progress"||p.status==="done"||p.status==="initiate")) postMessage({type:"dl", what, file:p.file, status:p.status, loaded:p.loaded||0, total:p.total||0}); };
-async function loadAsr(c){
-  const key = c.model+JSON.stringify(c.dtype)+c.device;
-  if(asr && asrKey===key) return;
-  if(asr){ try{ await asr.dispose(); }catch{} asr=null; }
-  try { asr = await pipeline("automatic-speech-recognition", c.model, { device:c.device, dtype:c.dtype, progress_callback:prog("asr") }); asrKey = key; }
-  catch(err){
-    postMessage({type:"log", msg:"İlk deneme olmadı ("+String(err && err.message || err).slice(0,120)+"), yedek yol deneniyor."});
-    const tries = [];
-    if(c.device!=="wasm") tries.push([c.model, "wasm", "q8"]);
-    if(c.alt) tries.push([c.alt, "wasm", "q8"]);
-    let last = err;
-    for(const [mdl, dev, dt] of tries){
-      try { asr = await pipeline("automatic-speech-recognition", mdl, { device:dev, dtype:dt, progress_callback:prog("asr") }); asrKey = key; return; }
-      catch(e2){ last = e2; }
-    }
-    throw last;
-  }
-}
-async function loadSpk(){
-  if(spModel) return;
-  spProc = await AutoProcessor.from_pretrained("Xenova/wavlm-base-plus-sv", { progress_callback:prog("spk") });
-  try { spModel = await WavLMForXVector.from_pretrained("Xenova/wavlm-base-plus-sv", { device:"wasm", dtype:"q8", progress_callback:prog("spk") }); }
-  catch(e){ spModel = await WavLMForXVector.from_pretrained("Xenova/wavlm-base-plus-sv", { device:"wasm", dtype:"fp32", progress_callback:prog("spk") }); }
-}
-self.onmessage = async e => {
-  const m = e.data;
-  try {
-    if(m.type==="load"){ await loadAsr(m.cfg); if(m.spk) await loadSpk(); postMessage({type:"ready", id:m.id}); }
-    else if(m.type==="asr"){
-      const o = { task:"transcribe", return_timestamps:true, chunk_length_s:30, stride_length_s:5 };
-      if(m.language) o.language = m.language;
-      const out = await asr(m.audio, o);
-      postMessage({type:"asr", id:m.id, text:out.text, chunks:(out.chunks||[]).map(c=>({t:c.timestamp, text:c.text}))});
-    }
-    else if(m.type==="emb"){
-      const res = [];
-      for(const a of m.list){ const inp = await spProc(a); const o = await spModel(inp); res.push(Array.from(o.embeddings.data)); }
-      postMessage({type:"emb", id:m.id, embs:res});
-    }
-  } catch(err){ postMessage({type:"error", id:m.id, msg:(err && err.message) || String(err)}); }
+/* ================= model ================= */
+// whisper.cpp (WebAssembly, single thread): low, predictable memory use.
+const MODELS = {
+  small:{ url:"https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin", mb:182, name:"Doğru", speed:2.6 },
+  base: { url:"https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin",  mb:57,  name:"Hızlı", speed:0.9 },
 };
-postMessage({type:"boot"});
-`;
-let worker=null, wSeq=0; const wWait=new Map(); let onDl=null, onWLog=null;
-function getWorker(){
-  if(worker) return worker;
-  worker = new Worker(URL.createObjectURL(new Blob([WORKER_SRC],{type:"text/javascript"})), {type:"module"});
-  worker.onmessage = e => { const m=e.data;
-    if(m.type==="dl"){ onDl && onDl(m); return; }
-    if(m.type==="log"){ onWLog && onWLog(m.msg); return; }
-    if(m.type==="boot") return;
-    const w=wWait.get(m.id); if(!w) return; wWait.delete(m.id);
-    m.type==="error" ? w.rej(new Error(m.msg)) : w.res(m); };
-  worker.onerror = e => { const err=new Error("Yapay zekâ modülü başlatılamadı. İnternet bağlantını kontrol et. ("+(e.message||"worker")+")"); for(const w of wWait.values()) w.rej(err); wWait.clear(); worker=null; };
-  return worker;
+const CACHE_NAME = "whisper.node.wasm.models";
+function modelKey(){ return LS.get("lite",false) ? "base" : (LS.get("mode","small")); }
+async function isCached(url){ try{ const c=await caches.open(CACHE_NAME); return !!(await c.match(url)); }catch{ return false; } }
+async function refreshDlNote(){
+  const k=modelKey(), m=MODELS[k];
+  $("#mSmall").setAttribute("aria-pressed", k==="small"); $("#mBase").setAttribute("aria-pressed", k==="base");
+  const speed = LS.get("speed_"+k, null) || m.speed;
+  const est = job && job.duration ? ` Bu kayıt için tahmini süre: ~${fmtMin(job.duration*speed)}.` : "";
+  const cached = await isCached(m.url);
+  $("#dlNote").textContent = (k==="small" ? "Türkçeyi daha iyi anlar." : "Yaklaşık 3 kat hızlı, daha az doğru.") + est + (cached ? "" : ` İlk kullanımda ${m.mb} MB indirilir (bir kerelik, Wi-Fi önerilir).`);
 }
-function wCall(msg, transfer){ const id=++wSeq; return new Promise((res,rej)=>{ wWait.set(id,{res,rej}); getWorker().postMessage({...msg,id}, transfer||[]); }); }
+function fmtMin(sec){ sec=Math.max(60,sec); const m=Math.round(sec/60); return m<60 ? m+" dk" : Math.floor(m/60)+" sa "+(m%60)+" dk"; }
+$("#mSmall").onclick=()=>{ LS.set("mode","small"); LS.set("lite",false); refreshDlNote(); };
+$("#mBase").onclick=()=>{ LS.set("mode","base"); refreshDlNote(); };
+
+// download once into Cache Storage with progress (the engine reads the same cache entry)
+async function ensureModel(url, onProg){
+  let cache=null; try{ cache=await caches.open(CACHE_NAME); if(await cache.match(url)) return; }catch{ cache=null; }
+  let lastErr;
+  for(let attempt=0; attempt<4; attempt++){
+    try{
+      const r=await fetch(url, {cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const total=+r.headers.get("content-length")||0; const rd=r.body.getReader(); const parts=[]; let got=0;
+      for(;;){ const {done,value}=await rd.read(); if(done) break; parts.push(value); got+=value.byteLength; onProg(got,total); if(stopReq) throw new Error("STOP"); }
+      if(total && got<total) throw new Error("eksik indirme");
+      const blob=new Blob(parts,{type:"application/octet-stream"}); parts.length=0;
+      if(cache){ try{ await cache.put(url, new Response(blob,{headers:{"content-type":"application/octet-stream","content-length":String(blob.size)}})); }catch(e){ /* storage full: engine will download itself */ } }
+      return;
+    }catch(e){ if(String(e.message)==="STOP") throw e; lastErr=e; await sleep(2000*(attempt+1)); }
+  }
+  throw new Error("İndirme başarısız: "+(lastErr&&lastErr.message||""));
+}
+
+let W=null, ctx=null, ctxUrl="", curTask=null;
+async function getEngine(){ if(!W){ W = await import("./wc/index.js"); W.configureWasm({ threads:false }); } return W; }
+async function loadModel(url){
+  if(ctx && ctxUrl===url) return ctx;
+  if(ctx){ try{ await ctx.release(); }catch{} ctx=null; ctxUrl=""; }
+  const E=await getEngine();
+  ctx = await E.initWhisper({ filePath:url, useFlashAttn:true, useGpu:false });
+  ctxUrl=url; return ctx;
+}
+async function freeModel(){ if(ctx){ try{ await ctx.release(); }catch{} } ctx=null; ctxUrl=""; }
 
 /* ================= views ================= */
-function show(v){ for(const id of ["vHome","vProg","vRes"]) $("#"+id).hidden = id!==v; $("#player").hidden = v!=="vRes"; window.scrollTo(0,0); if(v==="vHome") renderRecent(); }
+function show(v){ for(const id of ["vHome","vProg","vRes"]) $("#"+id).hidden = id!==v; $("#player").hidden = v!=="vRes"; window.scrollTo(0,0); if(v==="vHome"){ renderRecent(); checkResume(); } }
 (function(){ const svg=$("#waveSvg"); let d=""; for(let i=0;i<68;i++){ const h=6+Math.abs(Math.sin(i*.55)*Math.cos(i*.17))*34+(i%5)*1.2; d+=`<rect x="${i*5}" y="${(48-h)/2}" width="3" height="${h}" rx="1.5"/>`; } svg.innerHTML=`<g fill="currentColor" opacity=".35">${d}</g>`; svg.style.color="var(--accent)"; })();
 
 /* ================= file pick / record ================= */
 let job=null;
-async function mediaDuration(blob){
-  return new Promise(res => { const isV=/^video/.test(blob.type); const el=document.createElement(isV?"video":"audio"); el.preload="metadata"; const u=URL.createObjectURL(blob);
-    let done=false; const fin=v=>{ if(done) return; done=true; URL.revokeObjectURL(u); res(v); };
-    el.onloadedmetadata=()=>{ if(isFinite(el.duration)&&el.duration>0) fin(el.duration); else { el.ontimeupdate=()=>{ el.ontimeupdate=null; fin(isFinite(el.duration)?el.duration:0); }; el.currentTime=1e7; } };
-    el.onerror=()=>fin(0); setTimeout(()=>fin(0),15000); el.src=u; });
+function mediaDuration(blob){
+  return new Promise(res => { const isV=/^video/.test(blob.type); const el=document.createElement(isV?"video":"audio"); el.preload="metadata"; el.muted=true; const u=URL.createObjectURL(blob);
+    let done=false; const fin=v=>{ if(done) return; done=true; try{ el.removeAttribute("src"); el.load(); }catch{} URL.revokeObjectURL(u); res(v); };
+    el.onloadedmetadata=()=>{ if(isFinite(el.duration)&&el.duration>0) fin(el.duration); else { el.ontimeupdate=()=>{ el.ontimeupdate=null; fin(isFinite(el.duration)?el.duration:0); }; try{ el.currentTime=1e7; }catch{ fin(0); } } };
+    el.onerror=()=>fin(0); setTimeout(()=>fin(0),12000); el.src=u; });
 }
 async function pickFile(f){
   if(!f) return;
   job={file:f, name:f.name||"kayit", duration:0};
   $("#fName").textContent=job.name; $("#fDur").textContent="…"; $("#jobCard").hidden=false; $("#drop").hidden=true; $("#recBtn").parentElement.hidden=true;
-  await gpuReady; setQuality(quality);
+  refreshDlNote();
   job.duration = await mediaDuration(f);
-  $("#fDur").textContent = job.duration ? fmt(job.duration) : (Math.round(f.size/1048576)+" MB");
+  $("#fDur").textContent = job.duration ? fmt(job.duration) : (Math.max(1,Math.round(f.size/1048576))+" MB");
+  refreshDlNote();
 }
 $("#fileIn").onchange=e=>pickFile(e.target.files[0]);
 const drop=$("#drop");
@@ -498,7 +453,7 @@ $("#recBtn").onclick = async () => {
   if(rec){ rec.stop(); return; }
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
-    const mime=["audio/webm;codecs=opus","audio/mp4","audio/webm","audio/ogg"].find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m))||"";
+    const mime=["audio/mp4","audio/webm;codecs=opus","audio/webm","audio/ogg"].find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m))||"";
     rec=new MediaRecorder(stream, mime?{mimeType:mime}:{}); recChunks=[];
     rec.ondataavailable=e=>e.data.size&&recChunks.push(e.data);
     rec.onstop=()=>{ stream.getTracks().forEach(t=>t.stop()); clearInterval(recTimer); $("#recBtn").classList.remove("on"); $("#recTxt").textContent="Ya da şimdi kaydet";
@@ -506,214 +461,262 @@ $("#recBtn").onclick = async () => {
       const f=new File(recChunks,`Kayıt ${new Date().toLocaleString("tr-TR").replace(/[/:]/g,".")}.${ext}`,{type:type.split(";")[0]}); rec=null; releaseWake(); pickFile(f); };
     rec.start(1000); recStart=Date.now(); $("#recBtn").classList.add("on"); grabWake();
     recTimer=setInterval(()=>$("#recTxt").textContent="Kaydediliyor "+fmt((Date.now()-recStart)/1000)+" · durdur",500);
-  }catch(e){ toast("Mikrofona erişilemedi: "+e.message,4000); }
+  }catch(e){ toast("Mikrofona erişilemedi. Tarayıcı ayarlarından mikrofon iznini aç.",4000); }
 };
 let wake=null;
 async function grabWake(){ try{ wake=await navigator.wakeLock?.request("screen"); }catch{} }
 function releaseWake(){ try{ wake?.release(); }catch{} wake=null; }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&running) grabWake(); });
 
-/* ================= audio ================= */
-async function decode16k(blob, clean){
-  const buf=await blob.arrayBuffer();
-  const AC=window.AudioContext||window.webkitAudioContext;
-  let ctx; try{ ctx=new AC({sampleRate:16000}); }catch{ ctx=new AC(); }
-  let ab;
-  try{ ab=await new Promise((res,rej)=>{ const p=ctx.decodeAudioData(buf,res,rej); if(p&&p.then) p.then(res,rej); }); }
-  finally{ try{ctx.close();}catch{} }
-  const sr=16000, len=Math.ceil(ab.duration*sr);
-  const oc=new OfflineAudioContext(1,len,sr); const s=oc.createBufferSource(); s.buffer=ab; let node=s;
+/* ================= audio decode (memory-lean) ================= */
+// Returns Int16Array, 16 kHz mono. Peak memory ≈ decoded buffer + one mono copy.
+async function decodePcm(blob, clean){
+  let buf = await blob.arrayBuffer();
+  const off = new (window.OfflineAudioContext||window.webkitOfflineAudioContext)(1, SR, SR);
+  let ab = await new Promise((res,rej)=>{ try{ const p=off.decodeAudioData(buf,res,rej); if(p&&p.then) p.then(res,rej); }catch(e){ rej(e); } });
+  buf = null;
+  let mono;
   if(clean){
+    const len=Math.ceil(ab.duration*SR);
+    const oc=new OfflineAudioContext(1,len,SR); const s=oc.createBufferSource(); s.buffer=ab;
     const hp=oc.createBiquadFilter(); hp.type="highpass"; hp.frequency.value=85;
     const hum=oc.createBiquadFilter(); hum.type="notch"; hum.frequency.value=50; hum.Q.value=10;
     const lp=oc.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=7600;
     const pres=oc.createBiquadFilter(); pres.type="peaking"; pres.frequency.value=2800; pres.gain.value=3;
     const comp=oc.createDynamicsCompressor(); comp.threshold.value=-30; comp.knee.value=12; comp.ratio.value=4; comp.attack.value=.005; comp.release.value=.2;
-    s.connect(hp); hp.connect(hum); hum.connect(lp); lp.connect(pres); pres.connect(comp); node=comp;
+    s.connect(hp); hp.connect(hum); hum.connect(lp); lp.connect(pres); pres.connect(comp); comp.connect(oc.destination); s.start();
+    ab = await oc.startRendering(); mono = ab.getChannelData(0);
+  } else {
+    // stereo/multichannel: mix straight into Int16 (no extra Float32 copy)
+    const n=ab.length, ch=ab.numberOfChannels, C=[]; for(let c=0;c<ch;c++) C.push(ab.getChannelData(c));
+    let peak=0; for(let i=0;i<n;i+=3){ let v=0; for(let c=0;c<ch;c++) v+=C[c][i]; v=Math.abs(v/ch); if(v>peak) peak=v; }
+    const g = peak>0.001 ? Math.min(30, 0.92/peak) : 1, out=new Int16Array(n);
+    for(let i=0;i<n;i++){ let v=0; for(let c=0;c<ch;c++) v+=C[c][i]; let x=v/ch*g; out[i] = x>1?32767 : x<-1?-32768 : (x*32767)|0; }
+    return out;
   }
-  node.connect(oc.destination); s.start();
-  const out=await oc.startRendering(); const d=out.getChannelData(0);
-  let peak=0; for(let i=0;i<d.length;i+=4){ const a=Math.abs(d[i]); if(a>peak) peak=a; }
-  if(peak>0 && peak<.5){ const g=.9/peak; for(let i=0;i<d.length;i++) d[i]*=g; }
-  return d;
+  let peak=0; for(let i=0;i<mono.length;i+=3){ const a=Math.abs(mono[i]); if(a>peak) peak=a; }
+  const g = peak>0.001 ? Math.min(30, 0.92/peak) : 1;
+  const out=new Int16Array(mono.length);
+  for(let i=0;i<mono.length;i++){ let x=mono[i]*g; out[i] = x>1?32767 : x<-1?-32768 : (x*32767)|0; }
+  return out;
 }
-function rms(a, s, e){ s=Math.max(0,s|0); e=Math.min(a.length,e|0); if(e<=s) return 0; let q=0, n=0; for(let i=s;i<e;i+=2){ q+=a[i]*a[i]; n++; } return Math.sqrt(q/n); }
-// pick the quietest 0.2s point in [from,to] (in samples)
-function quietCut(a, from, to){ const W=3200; let best=to, bv=Infinity; for(let p=from; p+W<=to; p+=800){ const v=rms(a,p,p+W); if(v<bv){ bv=v; best=p+W/2; } } return best|0; }
+function toF32(pcm, s, e){ s=Math.max(0,s|0); e=Math.min(pcm.length,e|0); const o=new Float32Array(Math.max(0,e-s)); for(let i=0;i<o.length;i++) o[i]=pcm[s+i]/32768; return o; }
+function rms(pcm, s, e){ s=Math.max(0,s|0); e=Math.min(pcm.length,e|0); if(e<=s) return 0; let q=0,n=0; for(let i=s;i<e;i+=2){ const v=pcm[i]/32768; q+=v*v; n++; } return Math.sqrt(q/n); }
+function quietCut(pcm, from, to){ const W=3200; let best=to, bv=Infinity; for(let p=Math.max(0,from); p+W<=to; p+=800){ const v=rms(pcm,p,p+W); if(v<bv){ bv=v; best=p+W/2; } } return best|0; }
+
+/* ================= speakers (spk.js: voice features + clustering, no download) ================= */
+// whisper.cpp tokens -> words with times (seconds, absolute)
+function tokensToWords(segs, off, maxT){
+  const out=[];
+  for(const g of segs||[]){
+    let t=String(g.text||""); if(!t.trim() && !/^\s/.test(t)) continue; if(/^\s*\[_?[A-Z_]+_?\]\s*$/.test(t)) continue;
+    const s=(+g.t0||0)/1000+off, e=Math.min(maxT, Math.max((+g.t1||0)/1000+off, s));
+    const last=out[out.length-1];
+    if(!last || /^\s/.test(t)) { if(t.trim()) out.push({s, e, t:t.trim()}); }
+    else { last.t+=t; last.e=Math.max(last.e,e); }
+  }
+  return out;
+}
+// assign a speaker index to every word (nearest analysis window), then group into segments
+function buildSegments(doc, labels){
+  const W=doc.words||[], win=doc.win||[];
+  let wl=null;
+  if(labels && win.length){
+    wl=new Int32Array(W.length); let j=0;
+    for(let i=0;i<W.length;i++){ const m=(W[i].s+W[i].e)/2; while(j+1<win.length && Math.abs(win[j+1].t-m)<=Math.abs(win[j].t-m)) j++; wl[i]=labels[j]; }
+    // a 1-2 word island between the same speaker belongs to that speaker
+    for(let i=1;i<W.length-1;i++) if(wl[i]!==wl[i-1] && wl[i-1]===wl[i+1] && W[i].e-W[i].s<1.2) wl[i]=wl[i-1];
+    // move each speaker change to the most likely turn boundary nearby (pause, sentence end)
+    for(let i=1;i<W.length;i++){
+      if(wl[i]===wl[i-1]) continue;
+      const A=wl[i-1], B=wl[i]; let best=i, bs=-1;
+      for(let j=Math.max(1,i-4); j<=Math.min(W.length-1,i+4); j++){
+        const ok = wl.slice(Math.min(i,j),Math.max(i,j)).every(x=>x===A||x===B); if(!ok) continue;
+        let sc=Math.max(0,W[j].s-W[j-1].e); if(/[.?!…]$/.test(W[j-1].t)) sc+=0.6; else if(/[,;:]$/.test(W[j-1].t)) sc+=0.2; sc-=0.03*Math.abs(j-i);
+        if(sc>bs){ bs=sc; best=j; }
+      }
+      if(best<i) for(let j=best;j<i;j++) wl[j]=B; else for(let j=i;j<best;j++) wl[j]=A;
+      i=Math.max(i,best);
+    }
+  }
+  const segs=[]; let cur=null;
+  for(let i=0;i<W.length;i++){
+    const w=W[i], sp = wl ? wl[i] : 0;
+    const gap = cur ? w.s-cur.end : 0, dur = cur ? w.e-cur.start : 0, endP = cur && /[.?!…]$/.test(cur.text);
+    if(!cur || cur.sp!==sp || gap>=1.5 || (dur>25 && endP) || dur>45){ if(cur) segs.push(cur); cur={sp, start:w.s, end:w.e, text:w.t}; }
+    else { cur.text+=" "+w.t; cur.end=w.e; }
+  }
+  if(cur) segs.push(cur);
+  const order=new Map(); for(const g of segs) if(!order.has(g.sp)) order.set(g.sp,"S"+(order.size+1));
+  const names=Object.fromEntries((doc.speakers||[]).map(s=>[s.id,s.name]));
+  doc.speakers=[...order.values()].map((id,i)=>({id, name:names[id]||"", color:SPK_COLORS[i%SPK_COLORS.length]}));
+  if(!doc.speakers.length) doc.speakers=[{id:"S1",name:names.S1||"",color:SPK_COLORS[0]}];
+  doc.segments=segs.map(g=>({id:uid(), start:g.start, end:g.end, text:cleanText(g.text), speaker:order.get(g.sp)})).filter(g=>g.text && !(HALLU.some(re=>re.test(g.text)) && g.text.length<80));
+}
+async function analyzeVoices(doc, pcm, uptoSec){
+  const end=Math.min(pcm.length, Math.floor((uptoSec||pcm.length/SR)*SR)), CH=SR*300; doc.win=[];
+  for(let a=0;a<end;a+=CH){ try{ doc.win.push(...SPK.windows(pcm, a, Math.min(end, a+CH+SR*2)).win.filter(w=>w.t<(a+CH)/SR||a+CH>=end)); }catch{} await tick(); }
+}
+function diarize(doc, K){
+  if(K==null) K = doc.opts.nSpk||0;
+  if(K===1 || !(doc.win&&doc.win.length>=4)){ buildSegments(doc, null); return 1; }
+  const r=SPK.cluster(doc.win, K>1?K:0);
+  buildSegments(doc, r.lab); doc.autoK=r.k; return r.k;
+}
 
 /* ================= transcription ================= */
-const HALLU = [/altyaz[ıi]\s*m\.?\s*k/i,/izledi[ğg]iniz i[çc]in te[şs]ekk[üu]r/i,/abone ol/i,/be[ğg]enmeyi unutmay/i,/bir sonraki videoda/i,/subtitles? by/i,/thank you for watching/i,/amara\.org/i,/altyaz[ıi]lar?\s*:/i,/www\.\S+\.(com|org|net)/i];
-function cleanText(t){
-  t=String(t||"").replace(/\s+/g," ").trim();
-  t=t.replace(/(\b[\wçğıöşüÇĞİÖŞÜ']+\b)(\s+\1\b){4,}/gi,"$1 $1"); // looping repetitions
-  return t;
-}
-let running=false, stopReq=false, curDoc=null, pcm=null;
+const HALLU=[/altyaz[ıi]\s*m\.?\s*k/i,/izledi[ğg]iniz i[çc]in te[şs]ekk[üu]r/i,/abone ol/i,/be[ğg]enmeyi unutmay/i,/bir sonraki videoda/i,/subtitles? by/i,/thank you for watching/i,/amara\.org/i,/altyaz[ıi]lar?\s*:/i,/www\.\S+\.(com|org|net)/i,/^\s*\[?\s*m[üu]zik\s*\]?\s*$/i];
+function cleanText(t){ t=String(t||"").replace(/\s+/g," ").trim(); t=t.replace(/(\b[\wçğıöşüÇĞİÖŞÜ']+\b)(\s+\1\b){4,}/gi,"$1 $1"); return t; }
+
+let running=false, stopReq=false, curDoc=null;
 const steps=[];
-function pInit(title,list){ $("#pTitle").textContent=title; steps.length=0; $("#pSteps").innerHTML=""; for(const s of list){ const li=document.createElement("li"); li.textContent=s; $("#pSteps").appendChild(li); steps.push(li); } $("#pLog").textContent=""; pSet(0); $("#pShow").hidden=true; $("#pEta").textContent=""; $("#liveSegs").innerHTML=""; }
-function pStep(i,txt){ steps.forEach((li,k)=>li.className=k<i?"done":k===i?"on":""); if(txt!=null && steps[i]) steps[i].textContent=txt; }
+function pInit(title,list){ $("#pTitle").textContent=title; steps.length=0; $("#pSteps").innerHTML=""; for(const s of list){ const li=document.createElement("li"); li.textContent=s; $("#pSteps").appendChild(li); steps.push(li); } $("#pLog").textContent=""; pSet(0); $("#pShow").hidden=true; $("#pEta").textContent=""; $("#liveSegs").innerHTML=""; $("#pStop").textContent="Durdur"; $("#pStop").onclick=stopClick; }
+function pStep(i,txt){ steps.forEach((li,k)=>li.className=k<i?"done":k===i?"on":""); if(txt!=null&&steps[i]) steps[i].textContent=txt; }
 function pSet(f){ f=Math.max(0,Math.min(1,f)); $("#pBar").style.width=(f*100).toFixed(1)+"%"; $("#pPct").textContent=Math.round(f*100)+"%"; }
 function plog(m){ const l=$("#pLog"); l.textContent+=`[${new Date().toLocaleTimeString("tr-TR")}] ${m}\n`; l.scrollTop=l.scrollHeight; }
-$("#pStop").onclick=()=>{ stopReq=true; plog("Durduruluyor… (o anki parça bitince durur)"); };
+let stopFire=null, stopSignal=new Promise(r=>stopFire=r);
+function stopClick(){ stopReq=true; plog("Durduruldu."); try{ curTask&&curTask.stop(); }catch{} stopFire&&stopFire("STOP"); }
 $("#pShow").onclick=()=>{ if(curDoc) openDoc(curDoc); };
 
 $("#startBtn").onclick = async () => {
-  if(!job) return;
-  const doc={ id:uid(), title:job.name.replace(/\.[^.]+$/,""), createdAt:Date.now(), duration:job.duration||0, quality,
-    opts:{ nSpk:+$("#nSpk").value, lang:$("#lang").value, pre:$("#oPre").checked }, thr:DEF_T,
-    speakers:[], segments:[], doneSec:0, status:"working" };
-  await DB.put(doc); if(job.file.size<400*1048576) DB.putAudio(doc.id, job.file);
+  if(!job||running) return;
+  const doc={ id:uid(), title:job.name.replace(/\.[^.]+$/,""), createdAt:Date.now(), duration:job.duration||0,
+    opts:{ nSpk:+$("#nSpk").value, lang:$("#lang").value, pre:$("#oPre").checked, hint:$("#hint").value.trim().slice(0,200) }, speakers:[], segments:[], words:[], win:[], doneSec:0, status:"working" };
+  await DB.put(doc);
+  const saved = await DB.putAudio(doc.id, job.file);
+  doc.audioSaved = !!saved; await DB.put(doc);
   await execute(doc);
 };
 
+// crash guard: we write a marker before risky steps; if the page dies, next load sees it
+function mark(stage, doc){ const prev=LS.get("active",{})||{}; LS.set("active", stage ? {id:doc.id, stage, t:Date.now(), vis:document.visibilityState, crashes:(prev.id===doc.id ? (prev.crashes||0) : 0)} : null); }
+// remember whether the page was on screen, so a background kill by iOS is not mistaken for a memory crash
+function beat(){ const a=LS.get("active",null); if(a){ a.vis=document.visibilityState; a.hb=Date.now(); LS.set("active",a); } }
+document.addEventListener("visibilitychange", beat); setInterval(()=>{ if(running) beat(); }, 4000);
+
 async function execute(doc){
-  curDoc=doc; running=true; stopReq=false; grabWake();
-  const cfg=modelCfg(doc.quality||"std"); const wantSpk = doc.opts.nSpk!==1;
-  pInit("Dönüştürülüyor…", ["Yapay zekâ hazırlanıyor","Ses okunuyor","Konuşmalar yazıya dökülüyor", wantSpk?"Konuşmacılar ayrılıyor":"Bitiriliyor"]);
+  if(running) return;
+  doc.words=doc.words||[]; doc.win=doc.win||[];
+  curDoc=doc; running=true; stopReq=false; stopSignal=new Promise(r=>stopFire=r); grabWake();
+  const mk=modelKey(), model=MODELS[mk]; doc.model=mk;
+  const wantSpk = doc.opts.nSpk!==1;
+  pInit("Dönüştürülüyor…", ["Ses okunuyor","Yapay zekâ hazırlanıyor","Konuşmalar yazıya dökülüyor", wantSpk?"Konuşmacılar ayrılıyor":"Bitiriliyor"]);
   show("vProg");
+  let pcm=null;
   try{
-    // 1. load models (download with progress)
-    pStep(0);
-    const files={}; let lastShow=0;
-    onDl = m => { if(m.status==="initiate"){ files[m.file+m.what]=files[m.file+m.what]||{l:0,t:0}; return; }
-      const k=m.file+m.what; files[k]=files[k]||{l:0,t:0}; if(m.total) files[k].t=m.total; files[k].l = m.status==="done" ? (files[k].t||files[k].l) : m.loaded;
-      const L=Object.values(files).reduce((a,b)=>a+b.l,0), T=Object.values(files).reduce((a,b)=>a+(b.t||0),0);
-      const now=Date.now(); if(now-lastShow>250 && T>2e6){ lastShow=now; const done=L>=T*0.999; pStep(0, done?"Yapay zekâ hazırlanıyor (yükleniyor)…":`Yapay zekâ indiriliyor: ${(L/1048576).toFixed(0)} / ${(T/1048576).toFixed(0)} MB`); pSet(Math.min(1,L/T)*.1); } };
-    onWLog = msg => plog(msg);
-    plog(`Model: ${cfg.model.split("/")[1]} · ${cfg.device==="webgpu"?"ekran kartı":"işlemci"}`);
-    await wCall({type:"load", cfg:{model:cfg.model, alt:cfg.alt, device:cfg.device, dtype:cfg.dtype}, spk:wantSpk});
-    LS.set("dl_"+cfg.model,true);
-    pStep(0,"Yapay zekâ hazır");
+    // 1. decode first (before the model is in memory)
+    pStep(0); mark("decode", doc);
+    const src = (job && job.file && job.file.size) ? job.file : await DB.getAudio(doc.id);
+    if(!src) throw new Error("NOAUDIO");
+    plog("Ses okunuyor…");
+    try{ pcm = await decodePcm(src, doc.opts.pre); }
+    catch(e){ throw new Error("DECODE:"+(e&&e.message||e)); }
+    const total=pcm.length/SR; if(!doc.duration||Math.abs(doc.duration-total)>2) doc.duration=total;
+    plog(`Ses hazır: ${fmt(total)}`); pSet(0.03);
+    if(stopReq) throw new Error("STOP");
 
-    // 2. decode
-    pStep(1); plog("Ses okunuyor…");
-    let src = job && job.file && job.file.size ? job.file : await DB.getAudio(doc.id);
-    if(!src) throw new Error("Ses dosyası bulunamadı. Dosyayı yeniden seçip başlat.");
-    pcm = await decode16k(src, doc.opts.pre);
-    const total = pcm.length/16000; if(!doc.duration) doc.duration=total;
-    plog(`Ses hazır: ${fmt(total)}`);
+    // 2. model (download once, then cached)
+    pStep(1); mark("model", doc);
+    plog(`Yapay zekâ: ${model.name} mod`);
+    let lastShow=0;
+    await ensureModel(model.url, (got,total)=>{ const now=Date.now(); if(now-lastShow<300) return; lastShow=now;
+      pStep(1, total ? `Yapay zekâ indiriliyor: ${Math.round(got/1048576)} / ${Math.round(total/1048576)} MB` : `Yapay zekâ indiriliyor: ${Math.round(got/1048576)} MB`); if(total) pSet(0.03+0.07*got/total); });
+    if(stopReq) throw new Error("STOP");
+    pStep(1, "Yapay zekâ hazırlanıyor…");
+    let tries=0;
+    for(;;){ try{ await loadModel(model.url); break; }
+      catch(e){ if(stopReq) throw new Error("STOP"); tries++; plog("Yükleme sorunu: "+(e&&e.message||e)); if(tries>=3) throw new Error("MODEL:"+(e&&e.message||e)); await freeModel(); await sleep(3000); } }
+    pStep(1, "Yapay zekâ hazır");
 
-    // 3. transcribe slices
-    pStep(2);
-    const SL = 16000*150, sr=16000;
-    let pos = Math.floor((doc.doneSec||0)*sr);
+    // 3. transcribe in ~2.5 min slices (saved after each one, so a crash loses at most one slice)
+    pStep(2); mark("asr", doc);
+    const SL=SR*30;
+    let pos=Math.floor((doc.doneSec||0)*SR);
+    if(pos>0) plog(`Kaldığı yerden devam: ${fmt(pos/SR)}`);
     const t0=Date.now(), startPos=pos;
+    { const rem=(pcm.length-pos)/SR*(LS.get("speed_"+mk,null)||model.speed); $("#pEta").textContent="Tahmini ~"+fmtMin(rem); }
     while(pos < pcm.length){
       if(stopReq) throw new Error("STOP");
-      let end = Math.min(pcm.length, pos+SL);
-      if(end < pcm.length) end = quietCut(pcm, end-sr*10, end);
-      const slice = pcm.slice(pos, end);
-      const off = pos/sr;
-      if(rms(slice,0,slice.length) < 0.0015){ pos=end; continue; }
-      const r = await wCall({type:"asr", audio:slice, language:doc.opts.lang||null}, [slice.buffer]);
-      const newSegs=[];
-      for(const c of r.chunks){
-        let [s,e]=c.t||[0,null]; s=(+s||0)+off; e = e==null ? end/sr : (+e)+off; if(e<s) e=s;
-        const text=cleanText(c.text); if(!text) continue;
-        const energy = rms(pcm, s*sr, e*sr);
-        if(HALLU.some(re=>re.test(text)) && energy<0.03) continue;
-        const prev=doc.segments[doc.segments.length-1];
-        if(prev && prev.text===text && s-prev.end<2) continue;
-        const seg={id:uid(), start:s, end:e, text, speaker:"S1"}; doc.segments.push(seg); newSegs.push(seg);
+      let end=Math.min(pcm.length, pos+SL);
+      if(end<pcm.length) end=quietCut(pcm, end-SR*10, end);
+      const off=pos/SR;
+      if(rms(pcm,pos,end) > 0.002){
+        const slice=toF32(pcm,pos,end);
+        const sliceSec=(end-pos)/SR, base=0.1+0.88*pos/pcm.length, span=0.88*(end-pos)/pcm.length;
+        const opts={ language:doc.opts.lang||"auto", maxThreads:1, temperature:0, tokenTimestamps:true, maxLen:1 };
+        const prevTxt=(doc.words.slice(-12).map(w=>w.t).join(" ")).slice(-120);
+        const prompt=[doc.opts.hint||"", prevTxt].filter(Boolean).join(". ");
+        if(prompt) opts.prompt=prompt;
+        const tS=Date.now(), expect=sliceSec*(LS.get("speed_"+mk,null)||model.speed)*1000;
+        const tickr=setInterval(()=>pSet(base+span*Math.min(0.97,(Date.now()-tS)/expect)), 500);
+        curTask=ctx.transcribeData(slice, opts);
+        let r; try{ r=await Promise.race([curTask.promise, stopSignal]); } finally{ clearInterval(tickr); }
+        if(r==="STOP" || stopReq){ curTask=null; throw new Error("STOP"); }
+        curTask=null;
+        LS.set("speed_"+mk, Math.max(0.2, Math.min(8, (Date.now()-tS)/1000/sliceSec)));
+        const words=tokensToWords(r.segments, off, end/SR+0.5);
+        doc.words.push(...words);
+        const before=doc.segments.length; buildSegments(doc, null);
+        renderLive(doc.segments.slice(Math.max(0,before-1)));
       }
-      // speaker embeddings for new segments
-      if(wantSpk && newSegs.length){
-        const list = newSegs.map(g=>{ let a=g.start, b=g.end; const d=b-a; if(d<1.2){ const c=(a+b)/2; a=c-.6; b=c+.6; } if(b-a>8){ const c=(a+b)/2; a=c-4; b=c+4; } return pcm.slice(Math.max(0,Math.floor(a*sr)), Math.min(pcm.length,Math.floor(b*sr))); });
-        try{ const er = await wCall({type:"emb", list}); er.embs.forEach((v,i)=>newSegs[i].emb=v); }
-        catch(e){ plog("Konuşmacı analizi bu parçada atlandı: "+e.message); }
-      }
-      pos=end; doc.doneSec=pos/sr;
-      if(wantSpk) assignSpeakers(doc);
+      pos=end; doc.doneSec=pos/SR;
+      if(!doc.speakers.length) doc.speakers=[{id:"S1",name:"",color:SPK_COLORS[0]}];
       await DB.put(doc);
-      const frac=pos/pcm.length; pSet(.1+.88*frac);
-      const el=(Date.now()-t0)/1000, done=(pos-startPos)/sr; if(done>0){ const rem=(pcm.length-pos)/sr/done*el; $("#pEta").textContent = rem>5 ? "Kalan ~"+fmt(rem) : ""; }
-      pStep(2, `Yazıya dökülüyor: ${fmt(pos/sr)} / ${fmt(total)}`);
-      renderLive(doc, newSegs);
-      $("#pShow").hidden=false;
+      pSet(0.1+0.88*pos/pcm.length);
+      const el=(Date.now()-t0)/1000, done=(pos-startPos)/SR; if(done>=20){ const rem=(pcm.length-pos)/SR/done*el; $("#pEta").textContent = rem>20 ? "Kalan ~"+fmtMin(rem) : ""; }
+      pStep(2, `Yazıya dökülüyor: ${fmt(pos/SR)} / ${fmt(total)}`);
+      $("#pShow").hidden=!doc.segments.length;
     }
-    pStep(3); if(wantSpk){ assignSpeakers(doc); }
-    else { doc.speakers=[{id:"S1",name:"",color:SPK_COLORS[0]}]; doc.segments.forEach(s=>s.speaker="S1"); }
-    doc.status="done"; pSet(1); pStep(9); await DB.put(doc);
+    // 4. speakers
+    pStep(3); mark("spk", doc); await tick();
+    if(wantSpk){ await analyzeVoices(doc, pcm, total); const k=diarize(doc); plog(`${k} konuşmacı bulundu.`); } else buildSegments(doc, null);
+    doc.status="done"; pSet(1); pStep(9); await DB.put(doc); mark(null);
+    freeModel();
     running=false; releaseWake(); pcm=null; openDoc(doc);
-    toast(`Hazır. ${doc.segments.length} bölüm, ${doc.speakers.length} konuşmacı.`);
+    toast(doc.segments.length ? `Hazır. ${doc.speakers.length} konuşmacı.` : "Kayıtta konuşma bulunamadı.", 3500);
   }catch(e){
-    running=false; releaseWake(); pcm=null;
+    if(String(e&&e.message)==="STOP" && pcm && doc.opts.nSpk!==1 && doc.words&&doc.words.length){ try{ await analyzeVoices(doc, pcm, doc.doneSec); }catch{} }
+    running=false; releaseWake(); pcm=null; mark(null);
     doc.status = doc.segments.length ? "partial" : "failed"; await DB.put(doc);
-    if(e.message==="STOP"){ plog("Durduruldu."); if(doc.segments.length) openDoc(doc); else show("vHome"); return; }
-    plog("HATA: "+e.message);
-    if(/memory|allocation|Array buffer|RangeError/i.test(e.message)) plog("→ Cihazın hafızası yetmedi. “Standart” kaliteyi dene ya da kaydı bilgisayarda aç.");
-    if(/fetch|network|Failed to fetch|load/i.test(e.message)) plog("→ İnternet bağlantını kontrol edip tekrar dene (ilk kullanımda model indirilir).");
-    if(/decode|EncodingError|Unable to decode/i.test(e.message)) plog("→ Bu ses biçimi bu tarayıcıda açılamadı. Dosyayı mp3 ya da m4a olarak deneyebilirsin.");
-    $("#pTitle").textContent="Bir sorun çıktı";
+    const msg=String(e&&e.message||e);
+    if(msg==="STOP"){ plog("Durduruldu."); if(doc.words&&doc.words.length){ if(doc.opts.nSpk!==1&&doc.win&&doc.win.length) diarize(doc); else buildSegments(doc,null); await DB.put(doc); openDoc(doc); } else show("vHome"); return; }
+    $("#pTitle").textContent="Tamamlanamadı";
+    if(msg==="NOAUDIO") plog("Ses dosyası bulunamadı. Dosyayı yeniden seçip başlat.");
+    else if(msg.startsWith("DECODE:")) plog("Bu ses dosyası açılamadı. Dosya bozuk olabilir ya da bu biçim desteklenmiyor olabilir. mp3, m4a ya da wav olarak tekrar dene.");
+    else if(msg.startsWith("MODEL:")) plog("Yapay zekâ indirilemedi. İnternet bağlantını kontrol edip “Tekrar dene”ye bas. İndirilen kısım kaybolmaz.");
+    else plog("Sorun: "+msg+" — “Tekrar dene”ye basarsan kaldığı yerden devam eder.");
     $("#pShow").hidden=!doc.segments.length;
-    $("#pStop").textContent="Ana sayfa"; $("#pStop").onclick=()=>{ $("#pStop").textContent="Durdur"; $("#pStop").onclick=()=>{stopReq=true}; show("vHome"); };
+    $("#pStop").textContent="Tekrar dene"; $("#pStop").onclick=()=>{ if(msg==="NOAUDIO"||msg.startsWith("DECODE:")) show("vHome"); else execute(doc); };
   }
 }
-function renderLive(doc, segs){
+function renderLive(segs){
   const box=$("#liveSegs");
-  for(const s of segs){ const d=document.createElement("div"); d.className="sg"; d.innerHTML=`<span class="bar" style="background:var(${(doc.speakers.find(x=>x.id===s.speaker)||{}).color||"--s10"})"></span><div><div class="hd"><span class="ts">${fmt(s.start)}</span></div><div class="tx">${esc(s.text)}</div></div>`; box.appendChild(d); }
+  for(const s of segs){ const d=document.createElement("div"); d.className="sg"; d.innerHTML=`<span class="bar" style="background:var(--s10)"></span><div><div class="hd"><span class="ts">${fmt(s.start)}</span></div><div class="tx">${esc(s.text)}</div></div>`; box.appendChild(d); }
   while(box.children.length>6) box.removeChild(box.firstChild);
 }
 async function resumeDoc(doc){
+  if(running){ show("vProg"); return; }
   const a=await DB.getAudio(doc.id);
   if(!a){ toast("Bu kaydın sesi cihazda yok; dosyayı yeniden seçip baştan başlat.",4000); return; }
-  job={file:a, name:doc.title, duration:doc.duration}; await gpuReady;
-  await execute(doc);
+  job={file:a, name:doc.title, duration:doc.duration};
+  doc.status="working"; await execute(doc);
 }
-
-/* ================= speaker clustering ================= */
-function norm(v){ let s=0; for(const x of v) s+=x*x; s=Math.sqrt(s)||1; return v.map(x=>x/s); }
-function dot(a,b){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]*b[i]; return s; }
-function cluster(items, k, thr){
-  // items: [{v:normalized Float array, w:weight}] -> labels
-  const n=items.length; if(!n) return [];
-  // stage 1: leader grouping to keep it fast
-  let lt=0.93, groups;
-  for(;;){
-    groups=[];
-    for(let i=0;i<n;i++){ const it=items[i]; let best=-1, bs=-2;
-      for(let g=0; g<groups.length; g++){ const s=dot(it.v, groups[g].c); if(s>bs){ bs=s; best=g; } }
-      if(best>=0 && bs>=lt){ const G=groups[best]; G.m.push(i); for(let j=0;j<G.sum.length;j++) G.sum[j]+=it.v[j]*it.w; G.w+=it.w; G.c=norm(G.sum); }
-      else groups.push({m:[i], sum:it.v.map(x=>x*it.w), w:it.w, c:it.v.slice()}); }
-    if(groups.length<=350 || lt<0.8) break; lt-=0.03;
-  }
-  // stage 2: agglomerative (centroid linkage, weighted)
-  let G=groups.map(g=>({m:g.m, sum:g.sum, w:g.w, c:g.c, alive:true}));
-  const m=G.length, S=new Float32Array(m*m);
-  for(let i=0;i<m;i++) for(let j=i+1;j<m;j++) S[i*m+j]=S[j*m+i]=dot(G[i].c,G[j].c);
-  let alive=m;
-  while(alive>1){
-    let bi=-1,bj=-1,bs=-2;
-    for(let i=0;i<m;i++){ if(!G[i].alive) continue; for(let j=i+1;j<m;j++){ if(!G[j].alive) continue; const s=S[i*m+j]; if(s>bs){ bs=s; bi=i; bj=j; } } }
-    if(k>0){ if(alive<=k) break; } else if(bs<thr) break;
-    const A=G[bi], B=G[bj]; A.m=A.m.concat(B.m); for(let t=0;t<A.sum.length;t++) A.sum[t]+=B.sum[t]; A.w+=B.w; A.c=norm(A.sum); B.alive=false; alive--;
-    for(let j=0;j<m;j++){ if(j===bi||!G[j].alive) continue; S[bi*m+j]=S[j*m+bi]=dot(A.c,G[j].c); }
-  }
-  let C=G.filter(g=>g.alive);
-  // auto mode: fold tiny clusters (likely noise) into nearest big one
-  if(!(k>0) && C.length>1){
-    const tw=C.reduce((a,b)=>a+b.w,0);
-    const big=C.filter(c=>c.w>=Math.max(4, tw*0.04)); const small=C.filter(c=>!big.includes(c));
-    if(big.length){ for(const s of small){ let bb=big[0], bsim=-2; for(const b of big){ const v=dot(s.c,b.c); if(v>bsim){ bsim=v; bb=b; } } bb.m=bb.m.concat(s.m); } C=big; }
-  }
-  const lab=new Array(n).fill(0); C.forEach((c,ci)=>c.m.forEach(i=>lab[i]=ci)); return {lab, cents:C.map(c=>c.c)};
-}
-function assignSpeakers(doc, keepNames=true){
-  const segs=doc.segments.filter(s=>s.emb);
-  if(!segs.length){ if(!doc.speakers.length) doc.speakers=[{id:"S1",name:"",color:SPK_COLORS[0]}]; return; }
-  const longS=segs.filter(s=>s.end-s.start>=1.0); const base = longS.length>=2 ? longS : segs;
-  const items=base.map(s=>({v:norm(s.emb), w:Math.min(8, Math.max(.5, s.end-s.start))}));
-  const {lab, cents} = cluster(items, doc.opts.nSpk>1?doc.opts.nSpk:(doc.kOverride||0), doc.thr||DEF_T);
-  const raw=new Map(); base.forEach((s,i)=>raw.set(s,lab[i]));
-  for(const s of segs){ if(raw.has(s)) continue; const v=norm(s.emb); let bi=0,bs=-2; cents.forEach((c,i)=>{ const x=dot(v,c); if(x>bs){bs=x;bi=i;} }); raw.set(s,bi); }
-  // relabel by first appearance
-  const order=new Map(); const sorted=[...segs].sort((a,b)=>a.start-b.start);
-  for(const s of sorted){ const r=raw.get(s); if(!order.has(r)) order.set(r, "S"+(order.size+1)); }
-  const oldNames = keepNames ? Object.fromEntries((doc.speakers||[]).map(s=>[s.id,s.name])) : {};
-  doc.speakers=[...order.values()].map((id,i)=>({id, name:oldNames[id]||"", color:SPK_COLORS[i%SPK_COLORS.length]}));
-  for(const s of segs) s.speaker=order.get(raw.get(s));
-  // segments without embedding take the previous speaker
-  let last="S1"; for(const s of doc.segments){ if(s.emb) last=s.speaker; else s.speaker=last; }
+// after an unexpected page close (Safari memory kill), offer to continue
+let resumeChecked=false;
+async function checkResume(){
+  if(resumeChecked) return; resumeChecked=true;
+  const box=$("#resumeBox"); box.hidden=true;
+  const a=LS.get("active",null); if(!a||running) return;
+  const doc=await DB.get(a.id); if(!doc||doc.status==="done"){ mark(null); return; }
+  const crashes=(a.crashes||0)+1;
+  LS.set("active",{...a, crashes});
+  let extra="";
+  if((a.stage==="model"||a.stage==="asr") && a.vis==="visible" && !LS.get("lite",false) && modelKey()==="small"){ LS.set("lite",true); extra=" Telefonun hafızası “Doğru” moda yetmedi; “Hızlı” moda geçtim, kaldığın yerden sorunsuz devam eder."; }
+  if(a.stage==="decode" && crashes>=2) extra=" Bu kayıt telefon için çok uzun olabilir. Kaydı bilgisayarda açmayı ya da daha kısa parçalara bölmeyi dene.";
+  box.innerHTML=`Önceki işlem yarıda kaldı${doc.doneSec?` (${fmt(doc.doneSec)} yazıldı)`:""}.${extra||(a.vis==="hidden"?" Sayfa arka plandayken telefon tarafından kapatılmış. İşlem sürerken bu ekranda kalman yeterli.":"")} <div class="row" style="margin-top:8px"><button class="btn primary" id="rsGo">Kaldığı yerden devam et</button><button class="btn ghost" id="rsNo">Vazgeç</button></div>`;
+  box.hidden=false;
+  $("#rsGo").onclick=()=>{ box.hidden=true; resumeDoc(doc); };
+  $("#rsNo").onclick=()=>{ box.hidden=true; mark(null); };
 }
 
 /* ================= result view ================= */
@@ -721,10 +724,9 @@ let audioURL=null;
 async function openDoc(doc){
   curDoc=doc; show("vRes"); if($("#dHist").open) $("#dHist").close();
   $("#rTitle").value=doc.title;
-  const st = doc.status==="partial" ? ' · <span style="color:var(--warn)">yarım kaldı</span>' : "";
-  $("#rMeta").innerHTML=`<span class="mono">${doc.duration?fmt(doc.duration):"—"}</span><span>·</span><span>${doc.speakers.length} konuşmacı</span><span>·</span><span>${new Date(doc.createdAt).toLocaleString("tr-TR",{dateStyle:"medium",timeStyle:"short"})}</span>${st}`;
-  $("#rWarn").hidden = doc.status!=="partial";
-  if(doc.status==="partial"){ $("#rWarn").innerHTML=`Dönüşüm ${fmt(doc.doneSec||0)} noktasında yarım kaldı. <button class="btn" id="resBtn" style="min-height:32px;margin-left:6px">Kaldığı yerden devam et</button>`; $("#resBtn").onclick=()=>resumeDoc(doc); }
+  $("#rMeta").innerHTML=`<span class="mono">${doc.duration?fmt(doc.duration):"—"}</span><span>·</span><span id="rMetaSpk"></span><span>·</span><span>${new Date(doc.createdAt).toLocaleString("tr-TR",{dateStyle:"medium",timeStyle:"short"})}</span>${doc.status!=="done"?' · <span style="color:var(--warn)">yarım kaldı</span>':""}`;
+  $("#rWarn").hidden = doc.status==="done";
+  if(doc.status!=="done"){ $("#rWarn").innerHTML=`Dönüşüm ${fmt(doc.doneSec||0)} noktasında yarım kaldı. <button class="btn" id="resBtn" style="min-height:32px;margin-left:6px">Kaldığı yerden devam et</button>`; $("#resBtn").onclick=()=>resumeDoc(doc); }
   let blob=(job&&job.file&&job.file.size)?job.file:null; if(!blob) blob=await DB.getAudio(doc.id);
   setAudio(blob); renderSpeakers(); renderSegs();
 }
@@ -735,7 +737,7 @@ function setAudio(blob){
   else { a.removeAttribute("src"); a.hidden=true; $("#noAud").hidden=false; }
 }
 $("#attachBtn").onclick=()=>$("#attachIn").click();
-$("#attachIn").onchange=e=>{ const f=e.target.files[0]; if(f&&curDoc){ setAudio(f); if(f.size<400*1048576) DB.putAudio(curDoc.id,f); } };
+$("#attachIn").onchange=e=>{ const f=e.target.files[0]; if(f&&curDoc){ setAudio(f); DB.putAudio(curDoc.id,f); } };
 $("#rTitle").onchange=()=>{ curDoc.title=$("#rTitle").value.trim()||"Adsız"; DB.put(curDoc); };
 
 const spkName=id=>{ const s=curDoc.speakers.find(x=>x.id===id); return s&&s.name ? s.name : ("Konuşmacı "+String(id).replace(/^S/,"")); };
@@ -744,15 +746,16 @@ function renderSpeakers(){
   const dur={}; for(const s of curDoc.segments) dur[s.speaker]=(dur[s.speaker]||0)+Math.max(.1,s.end-s.start);
   const tot=Object.values(dur).reduce((a,b)=>a+b,0)||1;
   const used=curDoc.speakers.filter(s=>dur[s.id]);
-  $("#spkList").innerHTML = used.map(s=>`<button class="spk" data-id="${esc(s.id)}"><span class="dot" style="background:var(${s.color})"></span>${esc(spkName(s.id))}<span class="muted small mono">${Math.round(dur[s.id]/tot*100)}%</span></button>`).join("") || '<span class="muted small">Konuşmacı bulunamadı.</span>';
+  $("#spkList").innerHTML = used.map(s=>`<button class="spk" data-id="${esc(s.id)}"><span class="dot" style="background:var(${s.color})"></span>${esc(spkName(s.id))}<span class="muted small mono">${Math.round(dur[s.id]/tot*100)}%</span></button>`).join("") || '<span class="muted small">Konuşma bulunamadı.</span>';
   $("#spkList").querySelectorAll(".spk").forEach(b=>b.onclick=()=>openSpk());
   const f=$("#fSpk"), v=f.value; f.innerHTML='<option value="">Herkes</option>'+used.map(s=>`<option value="${esc(s.id)}">${esc(spkName(s.id))}</option>`).join(""); f.value=v;
-  $("#rMeta").children[2] && ($("#rMeta").children[2].textContent = used.length+" konuşmacı");
+  const ms=$("#rMetaSpk"); if(ms) ms.textContent=used.length+" konuşmacı";
 }
 function hl(t,q){ let h=esc(t); if(q){ const re=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"); h=h.replace(re,"<mark>$1</mark>"); } return h; }
 function renderSegs(){
   const q=$("#q").value.trim(), fs=$("#fSpk").value;
   const opts=curDoc.speakers.map(s=>`<option value="${esc(s.id)}">${esc(spkName(s.id))}</option>`).join("")+'<option value="__new">+ Yeni konuşmacı</option>';
+  const sel=id=>opts.replace(`value="${esc(id)}"`,`value="${esc(id)}" selected`);
   const box=$("#segs"); box.className="segs"+($("#tTs").checked?"":" hide-ts");
   const out=[]; let prev=null;
   for(const s of curDoc.segments){
@@ -760,11 +763,11 @@ function renderSegs(){
     if(q&&!s.text.toLowerCase().includes(q.toLowerCase())) continue;
     const cont = prev && prev.speaker===s.speaker && !q;
     out.push(`<div class="sg${cont?" cont":""}" data-id="${s.id}"><span class="bar" style="background:${spkColor(s.speaker)}"></span><div style="min-width:0">
-      <div class="hd"><button class="ts" data-t="${s.start}">${fmt(s.start)}</button>${cont?"":`<select class="who" style="color:${spkColor(s.speaker)}" aria-label="Konuşmacı">${opts.replace(`value="${esc(s.speaker)}"`,`value="${esc(s.speaker)}" selected`)}</select>`}${cont?`<select class="who mini" aria-label="Konuşmacı">${opts.replace(`value="${esc(s.speaker)}"`,`value="${esc(s.speaker)}" selected`)}</select>`:""}</div>
+      <div class="hd"><button class="ts" data-t="${s.start}">${fmt(s.start)}</button><select class="who${cont?" mini":""}" ${cont?"":`style="color:${spkColor(s.speaker)}"`} aria-label="Konuşmacı">${sel(s.speaker)}</select></div>
       <div class="tx" contenteditable="true" spellcheck="false">${hl(s.text,q)}</div></div></div>`);
     prev=s;
   }
-  box.innerHTML=out.join("")||'<div class="muted" style="padding:20px 0">Eşleşen bölüm yok.</div>';
+  box.innerHTML=out.join("")||'<div class="muted" style="padding:20px 0">Gösterilecek metin yok.</div>';
 }
 $("#q").oninput=()=>renderSegs(); $("#fSpk").onchange=()=>renderSegs(); $("#tTs").onchange=()=>renderSegs();
 $("#segs").addEventListener("click",e=>{ const b=e.target.closest(".ts"); if(b){ const a=$("#aud"); if(a.src){ a.currentTime=+b.dataset.t; a.play().catch(()=>{}); } else toast("Önce alttan sesi bağla."); } });
@@ -774,16 +777,13 @@ $("#segs").addEventListener("change",e=>{ const sel=e.target.closest("select.who
   if(v==="__new"){ let n=1; while(curDoc.speakers.find(x=>x.id==="S"+n)) n++; v="S"+n; curDoc.speakers.push({id:v,name:"",color:SPK_COLORS[(n-1)%SPK_COLORS.length]}); }
   s.speaker=v; s.manual=true; DB.put(curDoc); renderSpeakers(); renderSegs(); });
 const segOf=el=>curDoc.segments.find(x=>x.id===el.closest(".sg").dataset.id);
-$("#aud").addEventListener("timeupdate",()=>{ const t=$("#aud").currentTime; let cur=null; for(const s of curDoc?.segments||[]){ if(s.start<=t+.05) cur=s; else break; }
+$("#aud").addEventListener("timeupdate",()=>{ if(!curDoc) return; const t=$("#aud").currentTime; let cur=null; for(const s of curDoc.segments){ if(s.start<=t+.05) cur=s; else break; }
   const prev=$("#segs .sg.now"); const nid=cur?.id; if(prev&&prev.dataset.id===nid) return; prev?.classList.remove("now"); if(nid) $(`#segs .sg[data-id="${nid}"]`)?.classList.add("now"); });
 
-/* speakers editor */
 $("#spkEdit").onclick=()=>openSpk();
 function openSpk(){
-  const hasEmb=curDoc.segments.some(s=>s.emb);
-  $("#reclBox").hidden=!hasEmb;
-  $("#rcK").value=String(curDoc.kOverride||(curDoc.opts.nSpk>1?curDoc.opts.nSpk:0)); $("#rcT").value=curDoc.thr||DEF_T; $("#rcTv").textContent=(+$("#rcT").value).toFixed(2);
-  $("#rcK").onchange=()=>{ $("#rcT").disabled = +$("#rcK").value>0; }; $("#rcK").onchange();
+  $("#reclBox").hidden=!(curDoc.win&&curDoc.win.length>=4);
+  $("#rcK").value=String(curDoc.kChoice ?? curDoc.opts.nSpk ?? 0);
   const b=$("#spkBody"); const used=new Set(curDoc.segments.map(s=>s.speaker));
   b.innerHTML=curDoc.speakers.filter(s=>used.has(s.id)).map(s=>`<div class="stack" style="gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)" data-id="${esc(s.id)}">
     <div class="row" style="flex-wrap:nowrap"><span class="dot" style="background:var(${s.color});width:16px;height:16px"></span><input type="text" class="sn" value="${esc(s.name)}" placeholder="Konuşmacı ${esc(s.id.replace(/^S/,""))} için isim yaz" aria-label="İsim"></div>
@@ -796,26 +796,23 @@ function openSpk(){
   });
   if(!$("#dSpk").open) $("#dSpk").showModal();
 }
-$("#rcT").oninput=()=>$("#rcTv").textContent=(+$("#rcT").value).toFixed(2);
-$("#rcGo").onclick=()=>{ curDoc.thr=+$("#rcT").value; curDoc.kOverride=+$("#rcK").value; const save=curDoc.opts.nSpk; curDoc.opts.nSpk=0;
-  assignSpeakers(curDoc); curDoc.opts.nSpk=save; DB.put(curDoc); renderSpeakers(); renderSegs(); openSpk(); toast(`${curDoc.speakers.length} konuşmacı bulundu.`); };
+$("#rcGo").onclick=()=>{ const k=+$("#rcK").value; curDoc.kChoice=k; const n=diarize(curDoc, k); DB.put(curDoc); renderSpeakers(); renderSegs(); openSpk(); toast(`${n} konuşmacıya ayrıldı.`); };
 
 /* ================= exports ================= */
 const xo=()=>({ts:$("#xTs").checked});
-function paragraphs(){ // group consecutive same-speaker segments
-  const out=[]; for(const s of curDoc.segments){ const p=out[out.length-1]; if(p&&p.speaker===s.speaker&&s.start-p.end<4&&p.text.length<1500){ p.text+=" "+s.text; p.end=s.end; } else out.push({speaker:s.speaker,start:s.start,end:s.end,text:s.text}); } return out; }
+function paragraphs(){ const out=[]; for(const s of curDoc.segments){ const p=out[out.length-1]; if(p&&p.speaker===s.speaker&&s.start-p.end<4&&p.text.length<1500){ p.text+=" "+s.text; p.end=s.end; } else out.push({speaker:s.speaker,start:s.start,end:s.end,text:s.text}); } return out; }
 function plainText(o=xo()){ return paragraphs().map(p=>`${o.ts?"["+fmt(p.start)+"] ":""}${spkName(p.speaker)}: ${p.text}`).join("\n\n"); }
 function header(){ const used=curDoc.speakers.filter(s=>curDoc.segments.some(g=>g.speaker===s.id)); return `${curDoc.title}\nTarih: ${new Date(curDoc.createdAt).toLocaleString("tr-TR")}${curDoc.duration?" · Süre: "+fmt(curDoc.duration):""}\nKonuşmacılar: ${used.map(s=>spkName(s.id)).join(", ")}`; }
 function fullText(){ return header()+"\n\n"+plainText(); }
 function withPrompt(){ const p=$("#xPrompt").value; return (p?p+"\n\n":"")+fullText(); }
 function fname(ext){ return (curDoc.title||"doküm").replace(/[\\/:*?"<>|]+/g,"").slice(0,80)+"."+ext; }
-function saveBlob(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),30000); toast(name+" hazır."); }
+function saveBlob(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),60000); toast(name+" hazır."); }
 async function copy(t){ try{ await navigator.clipboard.writeText(t); return true; }catch{ const ta=document.createElement("textarea"); ta.value=t; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); let ok=false; try{ok=document.execCommand("copy")}catch{} ta.remove(); return ok; } }
 $("#expBtn").onclick=()=>$("#dExp").showModal();
 $("#xCopy").onclick=async()=>toast(await copy(withPrompt())?"Kopyalandı.":"Kopyalanamadı.");
 $("#xShare").onclick=async()=>{ const t=withPrompt();
-  if(navigator.share){ try{ const file=new File([t],fname("txt"),{type:"text/plain"}); if(t.length>6000&&navigator.canShare?.({files:[file]})) await navigator.share({files:[file],title:curDoc.title,text:$("#xPrompt").value||curDoc.title}); else await navigator.share({title:curDoc.title,text:t}); }catch(e){ if(e.name!=="AbortError") toast("Paylaşılamadı: "+e.message); } }
-  else { await copy(t); toast("Paylaşım desteklenmiyor; metin kopyalandı."); } };
+  if(navigator.share){ try{ const file=new File([t],fname("txt"),{type:"text/plain"}); if(t.length>6000&&navigator.canShare?.({files:[file]})) await navigator.share({files:[file],title:curDoc.title}); else await navigator.share({title:curDoc.title,text:t}); }catch(e){ if(e.name!=="AbortError") toast("Paylaşılamadı."); } }
+  else { await copy(t); toast("Metin kopyalandı; istediğin yere yapıştır."); } };
 function openAI(base){ const t=withPrompt(), enc=encodeURIComponent(t);
   if(enc.length<7000) window.open(base+enc,"_blank");
   else copy(t).then(ok=>{ toast(ok?"Metin uzun: panoya kopyalandı, açılan sohbete yapıştır.":"Metin uzun; “Paylaş” ya da “PDF paylaş”ı kullan.",5000); window.open(base.replace(/\?q=$/,""),"_blank"); }); }
@@ -831,7 +828,7 @@ $("#xDoc").onclick=()=>{ const o=xo(); let h=`<html><head><meta charset="utf-8">
   for(const p of paragraphs()){ const c=LIGHT_HEX[curDoc.speakers.find(x=>x.id===p.speaker)?.color]||"#333"; h+=`<p><b style="color:${c}">${esc(spkName(p.speaker))}</b>${o.ts?` <span class="t">[${fmt(p.start)}]</span>`:""}<br>${esc(p.text)}</p>`; }
   saveBlob(new Blob(["﻿"+h+"</body></html>"],{type:"application/msword"}),fname("doc")); };
 let pdfLib=null;
-function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>rej(new Error("PDF aracı yüklenemedi, internet bağlantını kontrol et.")); document.head.appendChild(s); }); }
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>{ s.remove(); rej(new Error("PDF aracı yüklenemedi, internet bağlantını kontrol et.")); }; document.head.appendChild(s); }); }
 async function pdfDoc(){
   if(!pdfLib){ toast("PDF hazırlanıyor…"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"); pdfLib=window.pdfMake; }
   const o=xo(); const used=curDoc.speakers.filter(s=>curDoc.segments.some(g=>g.speaker===s.id));
@@ -845,12 +842,12 @@ async function pdfDoc(){
 }
 $("#xPdf").onclick=async()=>{ try{ (await pdfDoc()).getBlob(b=>saveBlob(b,fname("pdf"))); }catch(e){ toast(e.message); } };
 $("#xPdfS").onclick=async()=>{ try{ (await pdfDoc()).getBlob(async b=>{ const f=new File([b],fname("pdf"),{type:"application/pdf"});
-  if(navigator.canShare?.({files:[f]})){ try{ await navigator.share({files:[f],title:curDoc.title}); }catch(e){ if(e.name!=="AbortError") toast(e.message); } } else { saveBlob(b,fname("pdf")); toast("Paylaşım desteklenmiyor, PDF indirildi."); } }); }catch(e){ toast(e.message); } };
+  if(navigator.canShare?.({files:[f]})){ try{ await navigator.share({files:[f],title:curDoc.title}); }catch(e){ if(e.name!=="AbortError") toast("Paylaşılamadı."); } } else { saveBlob(b,fname("pdf")); } }); }catch(e){ toast(e.message); } };
 
 /* ================= history ================= */
 async function histItems(){ return (await DB.all()).sort((a,b)=>b.createdAt-a.createdAt); }
 function histRow(d){
-  const st=d.status==="partial"||d.status==="working"?`<span class="pill" style="color:var(--warn)">yarım</span>`:d.status==="failed"?`<span class="pill" style="color:var(--bad)">hata</span>`:"";
+  const st=d.status!=="done"?`<span class="pill" style="color:var(--warn)">yarım</span>`:"";
   const ns=new Set((d.segments||[]).map(s=>s.speaker)).size;
   return `<div class="hi" data-id="${d.id}"><button class="t"><b>${esc(d.title)}</b><span class="muted small">${new Date(d.createdAt).toLocaleString("tr-TR",{dateStyle:"medium",timeStyle:"short"})} · ${d.duration?fmt(d.duration):"—"} · ${ns} kişi</span></button>${st}
   ${d.status!=="done"?'<button class="btn rs" style="min-height:34px;padding:0 10px">Devam</button>':""}
@@ -870,8 +867,9 @@ document.querySelectorAll("dialog [data-close]").forEach(b=>b.onclick=()=>b.clos
 document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{ if(e.target===d) d.close(); }));
 $("#homeBtn").onclick=()=>{ if(running){ show("vProg"); return; } show("vHome"); };
 window.addEventListener("beforeunload",e=>{ if(running){ e.preventDefault(); e.returnValue=""; } });
-show("vHome"); gpuReady.then(()=>setQuality(quality));
+window.addEventListener("unhandledrejection",e=>{ e.preventDefault(); });
 if(navigator.storage?.persist) navigator.storage.persist().catch(()=>{});
+show("vHome");
 </script>
 </body>
 </html>
