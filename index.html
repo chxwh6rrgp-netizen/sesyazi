@@ -334,6 +334,7 @@ a{color:var(--accent)}
 
 <div class="toast" id="toast" hidden></div>
 
+<script src="audio.js"></script>
 <script src="spk.js"></script>
 <script>
 "use strict";
@@ -469,37 +470,6 @@ function releaseWake(){ try{ wake?.release(); }catch{} wake=null; }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&running) grabWake(); });
 
 /* ================= audio decode (memory-lean) ================= */
-// Returns Int16Array, 16 kHz mono. Peak memory ≈ decoded buffer + one mono copy.
-async function decodePcm(blob, clean){
-  let buf = await blob.arrayBuffer();
-  const off = new (window.OfflineAudioContext||window.webkitOfflineAudioContext)(1, SR, SR);
-  let ab = await new Promise((res,rej)=>{ try{ const p=off.decodeAudioData(buf,res,rej); if(p&&p.then) p.then(res,rej); }catch(e){ rej(e); } });
-  buf = null;
-  let mono;
-  if(clean){
-    const len=Math.ceil(ab.duration*SR);
-    const oc=new OfflineAudioContext(1,len,SR); const s=oc.createBufferSource(); s.buffer=ab;
-    const hp=oc.createBiquadFilter(); hp.type="highpass"; hp.frequency.value=85;
-    const hum=oc.createBiquadFilter(); hum.type="notch"; hum.frequency.value=50; hum.Q.value=10;
-    const lp=oc.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=7600;
-    const pres=oc.createBiquadFilter(); pres.type="peaking"; pres.frequency.value=2800; pres.gain.value=3;
-    const comp=oc.createDynamicsCompressor(); comp.threshold.value=-30; comp.knee.value=12; comp.ratio.value=4; comp.attack.value=.005; comp.release.value=.2;
-    s.connect(hp); hp.connect(hum); hum.connect(lp); lp.connect(pres); pres.connect(comp); comp.connect(oc.destination); s.start();
-    ab = await oc.startRendering(); mono = ab.getChannelData(0);
-  } else {
-    // stereo/multichannel: mix straight into Int16 (no extra Float32 copy)
-    const n=ab.length, ch=ab.numberOfChannels, C=[]; for(let c=0;c<ch;c++) C.push(ab.getChannelData(c));
-    let peak=0; for(let i=0;i<n;i+=3){ let v=0; for(let c=0;c<ch;c++) v+=C[c][i]; v=Math.abs(v/ch); if(v>peak) peak=v; }
-    const g = peak>0.001 ? Math.min(30, 0.92/peak) : 1, out=new Int16Array(n);
-    for(let i=0;i<n;i++){ let v=0; for(let c=0;c<ch;c++) v+=C[c][i]; let x=v/ch*g; out[i] = x>1?32767 : x<-1?-32768 : (x*32767)|0; }
-    return out;
-  }
-  let peak=0; for(let i=0;i<mono.length;i+=3){ const a=Math.abs(mono[i]); if(a>peak) peak=a; }
-  const g = peak>0.001 ? Math.min(30, 0.92/peak) : 1;
-  const out=new Int16Array(mono.length);
-  for(let i=0;i<mono.length;i++){ let x=mono[i]*g; out[i] = x>1?32767 : x<-1?-32768 : (x*32767)|0; }
-  return out;
-}
 function toF32(pcm, s, e){ s=Math.max(0,s|0); e=Math.min(pcm.length,e|0); const o=new Float32Array(Math.max(0,e-s)); for(let i=0;i<o.length;i++) o[i]=pcm[s+i]/32768; return o; }
 function rms(pcm, s, e){ s=Math.max(0,s|0); e=Math.min(pcm.length,e|0); if(e<=s) return 0; let q=0,n=0; for(let i=s;i<e;i+=2){ const v=pcm[i]/32768; q+=v*v; n++; } return Math.sqrt(q/n); }
 function quietCut(pcm, from, to){ const W=3200; let best=to, bv=Infinity; for(let p=Math.max(0,from); p+W<=to; p+=800){ const v=rms(pcm,p,p+W); if(v<bv){ bv=v; best=p+W/2; } } return best|0; }
@@ -609,7 +579,7 @@ async function execute(doc){
     const src = (job && job.file && job.file.size) ? job.file : await DB.getAudio(doc.id);
     if(!src) throw new Error("NOAUDIO");
     plog("Ses okunuyor…");
-    try{ pcm = await decodePcm(src, doc.opts.pre); }
+    try{ pcm = await AUDIO.decode(src, doc.opts.pre, f=>{ pStep(0, `Ses okunuyor: %${Math.round(f*100)}`); pSet(0.03*f); }); }
     catch(e){ throw new Error("DECODE:"+(e&&e.message||e)); }
     const total=pcm.length/SR; if(!doc.duration||Math.abs(doc.duration-total)>2) doc.duration=total;
     plog(`Ses hazır: ${fmt(total)}`); pSet(0.03);
@@ -726,6 +696,7 @@ async function openDoc(doc){
   $("#rTitle").value=doc.title;
   $("#rMeta").innerHTML=`<span class="mono">${doc.duration?fmt(doc.duration):"—"}</span><span>·</span><span id="rMetaSpk"></span><span>·</span><span>${new Date(doc.createdAt).toLocaleString("tr-TR",{dateStyle:"medium",timeStyle:"short"})}</span>${doc.status!=="done"?' · <span style="color:var(--warn)">yarım kaldı</span>':""}`;
   $("#rWarn").hidden = doc.status==="done";
+  if(doc.status==="done" && doc.opts.nSpk===0 && doc.autoK===1 && doc.duration>120){ $("#rWarn").hidden=false; $("#rWarn").innerHTML=`Kayıtta tek konuşmacı bulundu. Birden fazla kişi konuşuyorsa <button class="btn" id="rkBtn" style="min-height:32px;margin-left:6px">Kişi sayısını seç</button>`; $("#rkBtn").onclick=()=>openSpk(); }
   if(doc.status!=="done"){ $("#rWarn").innerHTML=`Dönüşüm ${fmt(doc.doneSec||0)} noktasında yarım kaldı. <button class="btn" id="resBtn" style="min-height:32px;margin-left:6px">Kaldığı yerden devam et</button>`; $("#resBtn").onclick=()=>resumeDoc(doc); }
   let blob=(job&&job.file&&job.file.size)?job.file:null; if(!blob) blob=await DB.getAudio(doc.id);
   setAudio(blob); renderSpeakers(); renderSegs();
